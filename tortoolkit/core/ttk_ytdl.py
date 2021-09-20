@@ -553,7 +553,7 @@ async def handle_ytdl_playlist_down(e: MessageLike) -> None:
         url = pldata.get("webpage_url")
 
         if data[1].endswith("k"):
-            audcmd = f"yt-dlp -i --extract-audio --add-metadata --audio-format mp3 --audio-quality {data[1]} -o '{opdir}/%(title)s.%(ext)s' {url}"
+            audcmd = f"yt-dlp -i --extract-audio --add-metadata --audio-format mp3 --audio-quality {data[1]} -o '{opdir}/%(playlist_index)s - %(title)s.%(ext)s' {url}"
             out, err = await cli_call(audcmd)
 
             ofiles = len(os.listdir(opdir))
@@ -581,9 +581,9 @@ async def handle_ytdl_playlist_down(e: MessageLike) -> None:
 
         else:
             if data[1] == "best":
-                vidcmd = f"yt-dlp -i --continue --embed-subs --no-warnings --prefer-ffmpeg -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best' -o '{opdir}/%(title)s.%(ext)s' {url}"
+                vidcmd = f"yt-dlp -i --continue --embed-subs --no-warnings --prefer-ffmpeg -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best' -o '{opdir}/%(playlist_index)s - %(title)s.%(ext)s' {url}"
             else:
-                vidcmd = f"yt-dlp -i --continue --embed-subs --no-warnings --prefer-ffmpeg -f 'bestvideo[ext=mp4][height<={data[1]}]+bestaudio[ext=m4a]/best' -o '{opdir}/%(title)s.%(ext)s' {url}"
+                vidcmd = f"yt-dlp -i --continue --embed-subs --no-warnings --prefer-ffmpeg -f 'bestvideo[ext=mp4][height<={data[1]}]+bestaudio[ext=m4a]/best' -o '{opdir}/%(playlist_index)s - %(title)s.%(ext)s' {url}"
             out, err = await cli_call(vidcmd)
 
             ofiles = len(os.listdir(opdir))
